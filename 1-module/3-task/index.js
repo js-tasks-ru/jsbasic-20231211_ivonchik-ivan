@@ -1,3 +1,1 @@
-function ucFirst(str) {
-  // ваш код...
-}
+let ucFirst = (str) => str.slice(0, 1).toUpperCase() + str.slice(1);
