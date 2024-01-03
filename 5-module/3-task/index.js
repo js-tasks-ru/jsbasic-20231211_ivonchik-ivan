@@ -25,7 +25,7 @@ function initCarousel() {
     else if (event.target.closest(".carousel__arrow_left")) {
       innerIndex--;
 
-      innerIndex == 3 ? (arrowRight.style.display = "none") : (arrowRight.style.display = "");
+      innerIndex == carouselImgCount - 1 ? (arrowRight.style.display = "none") : (arrowRight.style.display = "");
       innerIndex == 0 ? (arrowLeft.style.display = "none") : (arrowLeft.style.display = "");
 
       inner.style.transform = `translateX(-${innerWidth * innerIndex}px)`;
