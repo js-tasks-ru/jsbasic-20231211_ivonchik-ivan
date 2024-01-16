@@ -4,7 +4,6 @@ export default class Modal {
   constructor() {
     this.modalWindow();
     this.addEventClick();
-    this.addEventEsc();
   }
 
   modalWindow() {
@@ -39,6 +38,9 @@ export default class Modal {
   open() {
     document.body.append(this.elem);
     document.body.classList.add("is-modal-open");
+
+    this.keydownEventListener = (event) => this.onDocumentKeyDown(event);
+    document.addEventListener("keydown", this.keydownEventListener);
   }
 
   setTitle(title) {
@@ -55,31 +57,20 @@ export default class Modal {
   close() {
     this.elem.remove();
     document.body.classList.remove("is-modal-open");
-  
+    document.removeEventListener("keydown", this.keydownEventListener);
   }
 
   addEventClick() {
     let modalClose = this.elem.querySelector(".modal__close");
-    
-    modalClose.addEventListener("click", () => {
-      this.elem.remove();
-      document.body.classList.remove("is-modal-open");
 
+    modalClose.addEventListener("click", () => {
+      this.close();
     });
   }
 
-  addEventEsc() {
-    let elem = this.elem;
-    document.addEventListener("keydown", closeEsc);
-
-    function closeEsc(event) {
-      if (event.code === "Escape") {
-       console.log(123);
-
-        elem.remove();
-        document.body.classList.remove("is-modal-open");
-        document.removeEventListener("keydown", closeEsc);
-      }
+  onDocumentKeyDown(event) {
+    if (event.code === "Escape") {
+      this.close();
     }
   }
 }
