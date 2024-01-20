@@ -2,7 +2,6 @@ import createElement from "../../assets/lib/create-element.js";
 export default class StepSlider {
   constructor({ steps, value = 0 }) {
     this.steps = steps;
-    // this.value = value;
     this.segments = steps - 1;
 
     this.render();
@@ -28,6 +27,7 @@ export default class StepSlider {
       sliderSteps.append(document.createElement("span"));
     }
   }
+  
   setValue(value) {
     this.value = value;
 
