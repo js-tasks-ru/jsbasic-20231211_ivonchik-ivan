@@ -21,7 +21,7 @@ export default class CartIcon {
           <span class="cart-icon__price">€${cart.getTotalPrice().toFixed(2)}</span>
         </div>`;
 
-      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.scrollY 
+
       this.updatePosition();
 
       this.elem.classList.add("shake");
@@ -42,26 +42,44 @@ export default class CartIcon {
   updatePosition() {
     if (!this.elem.offsetHeight) return
 
-      let leftIndent = Math.min(
-        document.querySelector(".container").getBoundingClientRect().right + 20,
-        document.documentElement.clientWidth - this.elem.offsetWidth - 10
-      ) + "px";
+    if (!this.initialTopCoord) {
+      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
+    }
 
-    if (window.scrollY  > this.initialTopCoord) {
-      Object.assign(this.elem.style, {
-        position: "fixed",
-        top: "50px",
-        zIndex: 1e3,
-        right:"10px",
-        left: leftIndent,
-      });
-    } else if (window.scrollY  < this.initialTopCoord || document.documentElement.clientWidth <= 767) {
-      Object.assign(this.elem.style, {
-        position: "",
-        top: "",
-        left: "",
-        zIndex: "",
-      }); 
-    } 
+    if (document.documentElement.clientWidth <= 767) {
+
+      this.resetPosition();
+      return;
+    }
+
+    let isHeaderCartScrolled = window.pageYOffset > this.initialTopCoord;
+
+    if (isHeaderCartScrolled) {
+      this.fixPosition();
+    } else {
+      this.resetPosition();
+    }
+  }
+
+  fixPosition() {
+    Object.assign(this.elem.style, {
+      position: 'fixed',
+      top: '50px',
+      zIndex: 1e3,
+      left: Math.min(
+
+        document.querySelector('.container').getBoundingClientRect().right + 20,
+        document.documentElement.clientWidth - this.elem.offsetWidth - 10
+      ) + 'px'
+    });
+  }
+
+  resetPosition() {
+    Object.assign(this.elem.style, {
+      position: '',
+      top: '',
+      left: '',
+      zIndex: ''
+    });
   }
 }
